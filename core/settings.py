@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     # Generate Swagger/OpenAPI 3.0 specifications from a Django Rest Framework API.
     # Documentation: https://drf-spectacular.readthedocs.io/
     "drf_spectacular",
+    "corsheaders",
     # Custom apps
     "api",
 ]
@@ -68,10 +69,6 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
     "DEFAULT_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",),
-    # "DATETIME_INPUT_FORMATS": [
-    #     "%Y-%m-%d %H:%M",
-    # ],
-    # "DATETIME_FORMAT": "%Y-%m-%d %H:%M",
 }
 
 SPECTACULAR_SETTINGS = {
@@ -79,7 +76,6 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "Swagger documentation for API endpoints.",
     "VERSION": "0.1.0",
     "SERVE_INCLUDE_SCHEMA": False,
-    # OTHER SETTINGS
 }
 
 
@@ -115,6 +111,7 @@ DATABASES = {
         "USER": os.getenv("POSTGRES_USER"),
         "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
         "HOST": os.getenv("POSTGRES_HOST"),
+        "ATOMIC_REQUESTS": True,
     }
 }
 

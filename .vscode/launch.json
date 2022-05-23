@@ -14,7 +14,7 @@
             ],
             "envFile": "${workspaceFolder}/.env",
             "django": true,
-            "justMyCode": true
+            "justMyCode": false
         }
     ]
 }
