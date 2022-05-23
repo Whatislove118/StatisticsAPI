@@ -75,7 +75,26 @@ class StatisticsViewSet(viewsets.GenericViewSet, CreateModelMixin, ListModelMixi
             queryset = queryset.filter(event_date__lte=date_to)
         return super().filter_queryset(queryset)
 
+    def create(self, request, *args, **kwargs):
+        """Create statistics entity
+
+        Fields:
+        - event_date: date of event in format YYYY-MM-DD
+        - cost [Optional]: cost of one click
+        """
+        return super().create(request, *args, **kwargs)
+
     def list(self, request, *args, **kwargs):
+        """Getting list of statistics entities with cost-per-click and average cost for 1000 views
+
+        Fields:
+        - id: Unique identifier for statistic entity
+        - event_date: date of event in format YYYY-MM-DD
+        - views: count of views
+        - clicks: count of clicks
+        - cpc: cost-per-click
+        - cpm: average cost for 1000 views
+        """
         self.queryset = self.annotate_queryset(self.queryset)
         order_by = self.request.query_params.get("order_by", None)
         # sorting after annotation because after this step, cpc and cpm a available for ordering
@@ -103,5 +122,6 @@ class StatisticsViewSet(viewsets.GenericViewSet, CreateModelMixin, ListModelMixi
     )
     @action(methods=["DELETE"], detail=False)
     def reset(self, request, *args, **kwargs):
+        """Reset all statistics data"""
         self.get_queryset().all().delete()
         return Response(data={"detail": "Reseted"}, status=204)
